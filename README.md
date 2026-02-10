@@ -6,6 +6,7 @@ A **professional Django web application** implementing a **role-based content ma
 Designed using real-world backend patterns used in production systems.
 
 ---
+Live App - https://dipansu712.pythonanywhere.com/
 
 ## 🚀 Features
 
