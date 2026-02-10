@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    body {
+        background: #f5f7fb;
+    }
+
+    .form-wrapper {
+        max-width: 520px;
+        margin: 60px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .form-header {
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .form-header h2 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #374151;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .form-group input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .btn-primary {
+        background: #16a34a;
+        color: #fff;
+        padding: 10px 22px;
+        border-radius: 8px;
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background: #15803d;
+    }
+
+    .btn-cancel {
+        text-decoration: none;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .btn-cancel:hover {
+        color: #111827;
+    }
+</style>
+
+<div class="form-wrapper">
+
+    <!-- HEADER -->
+    <div class="form-header">
+        <h2>Add New Category</h2>
+    </div>
+
+    <!-- FORM -->
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- CATEGORY NAME -->
+        <div class="form-group">
+            <label>Category Name</label>
+            <input type="text"
+                   name="name"
+                   placeholder="e.g. Machine Learning"
+                   required>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+            <a href="{% url 'categories' %}" class="btn-cancel">
+                ← Back to Categories
+            </a>
+            <button type="submit" class="btn-primary">
+                Save Category
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

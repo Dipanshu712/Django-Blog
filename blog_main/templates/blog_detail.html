@@ -1,0 +1,31 @@
+<h3>Comments ({{ blog.comments.count }})</h3>
+
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'add_comment' blog.id %}">
+    {% csrf_token %}
+    <textarea name="content" placeholder="Write a comment..." required></textarea>
+    <button type="submit">Post Comment</button>
+</form>
+{% endif %}
+
+<hr>
+
+{% for comment in blog.comments.all %}
+    {% if comment.parent is None %}
+        <div style="margin-bottom:15px;">
+            <strong>{{ comment.user.username }}</strong>
+            <p>{{ comment.content }}</p>
+
+            {% if request.user == comment.user or can_manage_users %}
+                <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+            {% endif %}
+
+            {% for reply in comment.replies.all %}
+                <div style="margin-left:20px;">
+                    <strong>{{ reply.user.username }}</strong>
+                    <p>{{ reply.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}

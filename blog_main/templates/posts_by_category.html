@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .category-container {
+        width: 100%;
+        padding: 20px 0;
+    }
+
+    .category-title {
+        text-align: center;
+        margin-bottom: 40px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .post-card {
+        background: #fff;
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        margin-bottom: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    .post-card img {
+        width: 260px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .post-content {
+        flex: 1;
+    }
+
+    .post-content h2 {
+        margin-bottom: 8px;
+        color: #222;
+        font-size: 1.4rem;
+    }
+
+    .meta {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 10px;
+    }
+
+    .meta span {
+        margin-right: 15px;
+    }
+
+    .description {
+        color: #444;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .read-more {
+        display: inline-block;
+        padding: 8px 18px;
+        background: #ffc107;
+        color: #000;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .read-more:hover {
+        background: #e0a800;
+        text-decoration: none;
+    }
+
+    .no-posts {
+        text-align: center;
+        font-size: 18px;
+        color: #666;
+        margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+        .post-card {
+            flex-direction: column;
+        }
+
+        .post-card img {
+            width: 100%;
+            height: 220px;
+        }
+    }
+</style>
+
+<div class="category-container">
+
+    <h1 class="category-title">
+        {{ category.name }}
+    </h1>
+
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post-card">
+
+                <!-- Image -->
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/260x180?text=No+Image" alt="No Image">
+                {% endif %}
+
+                <!-- Content -->
+                <div class="post-content">
+                    <h2>{{ post.title }}</h2>
+
+                    <div class="meta">
+                        <span>📁 {{ post.category.name }}</span>
+                        <span>✍ {{ post.author.username }}</span>
+                        <span>🗓 {{ post.created_at|date:"d M Y" }}</span>
+                    </div>
+
+                    <p class="description">
+                        {{ post.short_description|truncatewords:30 }}
+                    </p>
+
+                    <!-- Future: link to post detail -->
+                   <a href="{% url 'blog_detail' post.slug %}" class="read-more">
+                   Read More →
+                   </a>
+
+                </div>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-posts">
+            No posts available in this category.
+        </p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

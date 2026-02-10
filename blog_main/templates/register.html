@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .register-wrapper {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .register-card {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 40px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        animation: fadeUp 0.5s ease;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .register-title {
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .register-subtitle {
+        text-align: center;
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        position: relative;
+    }
+
+    .form-group i {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        transform: translateY(-50%);
+        color: #999;
+    }
+
+    .form-control {
+        height: 48px;
+        padding-left: 42px;
+        border-radius: 12px;
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        font-weight: 600;
+        border-radius: 12px;
+        height: 48px;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-register:hover {
+        opacity: 0.95;
+        transform: translateY(-1px);
+    }
+
+    .divider {
+        text-align: center;
+        margin: 25px 0;
+        position: relative;
+    }
+
+    .divider span {
+        background: #fff;
+        padding: 0 12px;
+        color: #888;
+        font-size: 14px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .divider::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background: #ddd;
+        top: 50%;
+        left: 0;
+    }
+
+    .social-login a {
+        display: block;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 10px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .social-login a:hover {
+        background: #f8f9fa;
+    }
+
+    .register-footer {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .register-footer a {
+        color: #667eea;
+        font-weight: 600;
+        text-decoration: none;
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-card">
+
+        <h3 class="register-title">Create Account</h3>
+        <p class="register-subtitle">
+            Join Django Blog and start your journey 🚀
+        </p>
+         <form method="post">
+    {% csrf_token %}
+
+    <!-- Username -->
+    <div class="form-group mb-3">
+        <i class="fa fa-user"></i>
+        <input
+            type="text"
+            name="username"
+            class="form-control"
+            placeholder="Username"
+            value="{{ form.username.value|default:'' }}"
+            required
+        >
+        {% if form.username.errors %}
+            <small class="text-danger">
+                {{ form.username.errors|striptags }}
+            </small>
+        {% endif %}
+    </div>
+
+    <!-- Email -->
+    <div class="form-group mb-3">
+        <i class="fa fa-envelope"></i>
+        <input
+            type="email"
+            name="email"
+            class="form-control"
+            placeholder="Email Address"
+            value="{{ form.email.value|default:'' }}"
+            required
+        >
+        {% if form.email.errors %}
+            <small class="text-danger">
+                {{ form.email.errors|striptags }}
+            </small>
+        {% endif %}
+    </div>
+
+    <!-- Password -->
+    <div class="form-group mb-3">
+        <i class="fa fa-lock"></i>
+        <input
+            type="password"
+            name="password1"
+            class="form-control"
+            placeholder="Password"
+            required
+        >
+        {% if form.password1.errors %}
+            <small class="text-danger">
+                {{ form.password1.errors|striptags }}
+            </small>
+        {% endif %}
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-group mb-3">
+        <i class="fa fa-lock"></i>
+        <input
+            type="password"
+            name="password2"
+            class="form-control"
+            placeholder="Confirm Password"
+            required
+        >
+        {% if form.password2.errors %}
+            <small class="text-danger">
+                {{ form.password2.errors|striptags }}
+            </small>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-register btn-block">
+        Create Account
+    </button>
+</form>
+
+        
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+{% comment %} <div class="social-login">
+    <a href="{% url 'socialaccount_login' 'google' %}">
+        <i class="fab fa-google mr-2"></i> Continue with Google
+    </a>
+
+    <a href="{% url 'socialaccount_login' 'github' %}">
+        <i class="fab fa-github mr-2"></i> Continue with GitHub
+    </a>
+</div> {% endcomment %}
+
+
+        <div class="register-footer">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

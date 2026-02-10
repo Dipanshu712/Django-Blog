@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ================= HERO FEATURED POST ================= -->
+{% if featured_posts %}
+    {% with featured_posts.0 as post %}
+        <div class="jumbotron p-4 text-white rounded bg-dark"
+             {% if post.featured_image %}
+                 style="
+                    background-image: url('{{ post.featured_image.url }}');
+                    background-size: cover;
+                    background-position: center;
+                 "
+             {% endif %}>
+
+            <div class="col-md-8 px-0">
+                <h1 class="display-4 font-italic text-white">
+                    {{ post.title }}
+                </h1>
+
+                <p class="lead my-3 text-white">
+                    {{ post.short_description|truncatewords:50 }}
+                </p>
+
+                <p class="lead mb-0">
+                    <a href="{% url 'blog_detail' post.slug %}" class="text-white font-weight-bold">
+                        Continue reading...
+                    </a>
+                </p>
+            </div>
+        </div>
+    {% endwith %}
+{% endif %}
+
+<!-- ================= FEATURED POSTS ================= -->
+<h3 class="text-uppercase text-warning mb-3" style="letter-spacing: 2px;">
+    Featured Posts
+</h3>
+
+<div class="row mb-4">
+    {% for post in featured_posts|slice:"1:" %}
+        <div class="col-md-6">
+            <div class="card border-0 mb-3">
+                <div class="card-body">
+<a href="{% url 'blog_detail' post.slug %}" class="text-decoration-none text-dark">
+    <h4>{{ post.title }}</h4>
+</a>
+                   
+
+                    <small class="text-muted">
+                        {{ post.created_at|date:"M d, Y" }}
+                        | {{ post.author.username }}
+                    </small>
+
+                    <p class="mt-2">
+                        {{ post.short_description|truncatewords:50 }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No featured posts available.</p>
+    {% endfor %}
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="row">
+
+   <div class="row">
+
+    <!-- BLOG POSTS -->
+    <div class="col-md-8 blog-main">
+
+        <h3 class="text-uppercase text-warning mb-4"
+            style="letter-spacing: 2px;">
+            Recent Articles
+        </h3>
+
+        {% for post in posts %}
+        <div class="card mb-4 border-0 shadow-sm">
+
+            <div class="card-body">
+
+                <!-- Title -->
+
+                <a href="{% url 'blog_detail' post.slug %}" class="text-decoration-none text-dark">
+               <h3>{{ post.title }}</h3>
+                    </a>
+                {% comment %} <h2 class="h4 font-weight-bold mb-2">
+                    {{ post.title }}
+                </h2> {% endcomment %}
+
+                <!-- Meta -->
+                <p class="text-muted small mb-3">
+                    {{ post.created_at|date:"F d, Y" }}
+                    · {{ post.author.username }}
+                </p>
+
+                <!-- Short description -->
+                <p class="font-italic text-secondary">
+                    {{ post.short_description }}
+                </p>
+
+                <!-- Content preview -->
+                <p class="mb-3">
+                    {{ post.content|truncatewords:40 }}
+                </p>
+
+                <!-- Read more -->
+                <a href="{% url 'blog_detail' post.slug %}"
+                   class="text-warning font-weight-bold">
+                    Read more →
+                </a>
+
+            </div>
+        </div>
+        {% empty %}
+            <p class="text-muted">No posts available.</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+  
+
+
+{% endblock %}
